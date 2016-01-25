@@ -10,3 +10,5 @@ VERSION or DATE: January 25, 2016
 HOW TO START THIS PROJECT: Select Run
 AUTHORS: Maham Javed, Kana Mishra, Rachana Thanneeru
 USER INSTRUCTIONS:
+
+Download the parser from https://drive.google.com/open?id=0B4OnQ6vgP8asYlQyX3k4dHZROVk
