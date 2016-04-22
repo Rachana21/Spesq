@@ -1,0 +1,250 @@
+import greenfoot.*;
+import java.awt.Font;
+import java.awt.Color;
+
+/**
+ * a world to demo the use of the TextImage class (a supporting subclass of GreenfootImage)
+ */
+public class DisplayWorld extends World
+{
+    Actor btnDisplayWorld, btnTextImage, mouseButton; // the text viewer button fields
+    Actor fontActor; // the actor that displays the different fonts
+    int fontNum; // the index of a font in the 'fonts' array of the TextImage class
+    int fontStyle; // the style to show the font in
+
+    /**
+     * creates the background and adds the buttons into the world
+     */
+    public DisplayWorld()
+    {
+        super(800, 600, 1);
+        // the background
+        getBackground().setColor(new Color(240, 240, 192));
+        getBackground().fill();
+        // the title
+        int y = 20;
+        TextImage image = new TextImage("TextImage Class", TextImage.getFont("Serif.plain", 64));
+        getBackground().drawImage(image, (getWidth()-image.getWidth())/2, y);
+        y += image.getHeight();
+        // the subtitle
+        image = new TextImage("extends GreenfootImage", TextImage.getFont("Serif.italic", 48));
+        getBackground().drawImage(image, (getWidth()-image.getWidth())/2, y);
+        y += image.getHeight();
+        // the author
+        Color tColor = new Color(0, 128, 0);
+        image = new TextImage("by danpost", new Font("Harlow Solid Italic", Font.BOLD, 48), tColor, null);
+        getBackground().drawImage(image, (getWidth()-image.getWidth())/2, y);
+        y += image.getHeight()+30;
+        // the text
+        String text = "An ongoing issue has been not knowing the size of a text image drawn using\n";
+        text       += "'drawString' or 'showText' prior to or even after the text is drawn onto an image.\n\n";
+        text       += "This issue makes it impossible to center or right-align text or\n";
+        text       += "to place the text image with respect to other objects or images.\n\n";
+        text       += "This extension of GreenfootImage will resolve this issue.\n";
+        text       += "Many constructors and methods included to return a new TextImage object,\n";
+        text       += "Several 'get' methods were added for convenience.\n\n";
+        text       += "Multiple constructors are available to make text image creation easy.\n";
+        text       += "The methods are provided so beginners can make use of the class without\n";
+        text       += "having to deal much with the Font class.  This also makes it easy to\n";
+        text       += "alter the current image of an actor.  For example, to change the coloring:\n ";
+        image = new TextImage(text, TextImage.getFont("SansSerif.bold"));
+        getBackground().drawImage(image, (getWidth()-image.getWidth())/2, y);
+        y += image.getHeight();
+        // the code
+        String code = " setImage(((TextImage)getImage()).colored( <<new values>> )); ";
+        image = new TextImage(code, TextImage.getFont("Monospaced.italic"));
+        image = image.colored(new Color(0, 64, 0), new Color(224, 224, 160));
+        getBackground().drawImage(image, (getWidth()-image.getWidth())/2, y);
+        y += image.getHeight();
+        // the request
+        text = "\nI hope you all find it useful; and please, tell me what you think.";
+        image = new TextImage(text, new Font("Lucida Calligraphy Italic", Font.PLAIN, 24), Color.red, null);
+        getBackground().drawImage(image, (getWidth()-image.getWidth())/2, y);
+        // the buttons
+        addObject(btnDisplayWorld = new Button("DisplayWorld"), 100, 30);
+        btnDisplayWorld.getImage().setTransparency(128);
+        addObject(btnTextImage = new Button("TextImage"), 700, 30);
+        btnTextImage.getImage().setTransparency(128);
+    }
+    
+    /**
+     * prepares the displaying of different available fonts (called automatically by the system
+     * when the 'Run' button is clicked on)
+     */
+    public void started()
+    {
+        if (fontActor != null) return;
+        // the background
+        getBackground().fillRect(0, 180, 800, 420);
+        // instruct to click buttons
+        TextImage overImg = new TextImage("Click on buttons in upper corners to view class codes", 24);
+        getBackground().drawImage(overImg, 400-overImg.getWidth()/2, 200);
+        // instruct image to change font 
+        TextImage upImg = new TextImage("Press 'up' to increase the font index", 24);
+        TextImage dnImg = new TextImage("Press 'down' to decrease the font index", 24);
+        GreenfootImage leftImg = new GreenfootImage(dnImg.getWidth(), upImg.getHeight()*2);
+        leftImg.drawImage(upImg, 0, 0);
+        leftImg.drawImage(dnImg, 0, upImg.getHeight());
+        // instruct image to change style
+        upImg = new TextImage("Press 'b' to toggle bold style", 24);
+        dnImg = new TextImage("Press 'i' to toggle italic style", 24);
+        GreenfootImage rightImg = new GreenfootImage(upImg.getWidth(), upImg.getHeight()*2);
+        rightImg.drawImage(upImg, 0, 0);
+        rightImg.drawImage(dnImg, 0, upImg.getHeight());
+        // combined font/style instruct image
+        GreenfootImage image = new GreenfootImage(leftImg.getWidth()+rightImg.getWidth()+150, leftImg.getHeight());
+        image.drawImage(leftImg, 0, 0);
+        image.drawImage(rightImg, image.getWidth()-rightImg.getWidth(), 0);
+        getBackground().drawImage(image, 400-image.getWidth()/2, 240);
+        // the actor to display font data
+        fontActor = new Actor(){};
+        addObject(fontActor, 400, 400);
+        setFontActorImage();        
+    }
+    
+    /**
+     * creates the image displaying the settings for the current font and an example of text in that font
+     */
+    private void setFontActorImage()
+    {
+        TextImage[] images = new TextImage[5];
+        images[0] = new TextImage("Index: "+fontNum, TextImage.getFont("SansSerif.bold", 24));
+        int height = images[0].getHeight();
+        String nameText = "Name: "+TextImage.fonts[fontNum].getName();
+        images[1] = new TextImage(nameText, TextImage.getFont("SansSerif.bold", 24));
+        height += images[1].getHeight();
+        images[4] = new TextImage(" ", new Font(TextImage.fonts[fontNum].getName(), fontStyle, 24));
+        images[4] = images[4].texted(images[4].getFont().toString());
+        while (images[4].getWidth() > 750)
+        {
+            images[4] = images[4].sized(images[4].getFontSize()-2);
+            images[4] = images[4].texted(images[4].getFont().toString());
+        }
+        height += images[4].getHeight();
+        String styleText = "Style: ";
+        if (fontStyle == 0) styleText += "Font.PLAIN";
+        else if (fontStyle == 1) styleText += "Font.BOLD";
+        else if (fontStyle == 2) styleText += "Font.ITALIC";
+        else styleText += "Font.BOLD + Font.ITALIC";
+        images[2] = new TextImage(styleText, TextImage.getFont("SansSerif.bold", 24));
+        height += images[2].getHeight();
+        images[3] = new TextImage("Size: "+images[4].getFontSize(), TextImage.getFont("SansSerif.bold", 24));
+        height += images[3].getHeight();
+        GreenfootImage image = new GreenfootImage(750, height);
+        int y = 0;
+        for (int i=0; i<5; i++)
+        {
+            image.drawImage(images[i], 0, y);
+            y += images[i].getHeight();
+        }
+        fontActor.setImage(image);
+    }
+    
+    /**
+     * detects mouse clicks on button actors and keystrokes to change font or font style
+     */
+    public void act()
+    {
+        // detect mouse clicks on buttons
+        if (Greenfoot.mouseClicked(btnDisplayWorld))
+            Greenfoot.setWorld(new TextFileViewer("DisplayWorld.txt", this));
+        if (Greenfoot.mouseClicked(btnTextImage))
+            Greenfoot.setWorld(new TextFileViewer("TextImage.txt", this));
+        // get keystroke, if any
+        String key = Greenfoot.getKey();
+        if (key == null) return;
+        // style changing
+        if (key.length() == 1)
+        {
+            int style = " bi".indexOf(key);
+            if (style <= 0) return;
+            if ((fontStyle & style) == 0) fontStyle += style; else fontStyle -= style;
+            setFontActorImage();
+            return;
+        }
+        // font changing
+        int d = 0;
+        if ("up".equals(key)) d++;
+        if ("down".equals(key)) d--;
+        if (d == 0) return;
+        fontNum = (fontNum+TextImage.maxFonts+d)%TextImage.maxFonts;
+        setFontActorImage();
+    }
+
+    /** *******************************************************************************************
+     * Class Button: creates a button actor with the caption given; the image of the button image
+     * is given the ability to change as the mouse moves on and off it.
+     */
+    private class Button extends Actor
+    {
+        private TextImage image;
+        private boolean shadow;
+
+        /**
+         * creates a new button with the given text
+         * 
+         * @param the text
+         */
+        public Button(String text)
+        {
+            updateImage(image = new TextImage(text, 24));
+        }
+
+        /**
+         * changes image of button for mouse hovering action
+         */
+        public void act()
+        {
+            // gaining mouse hover
+            if (mouseButton == null && Greenfoot.mouseMoved(this))
+            {
+                mouseButton = this;
+                updateImage(image.styled(3));
+                getImage().setTransparency(255);
+                shadow = false;
+            }
+            // losing mouse hover
+            if (mouseButton == this && Greenfoot.mouseMoved(null) && !Greenfoot.mouseMoved(this))
+            {
+                mouseButton = null;
+                updateImage(image);
+                getImage().setTransparency(128);
+                shadow = false;
+            }
+            // mouse pressed
+            if (mouseButton == this && !shadow && Greenfoot.mousePressed(this))
+            {
+                GreenfootImage img = new GreenfootImage(151, 31);
+                img.fill();
+                img.drawImage(getImage(), 1, 1);
+                setImage(img);
+                shadow = true;
+            }
+            // mouse unpressed
+            if (mouseButton == this && shadow && Greenfoot.mouseClicked(null))
+            {
+                GreenfootImage img = new GreenfootImage(150, 30);
+                img.drawImage(getImage(), -1, -1);
+                setImage(img);
+                shadow = false;
+            }
+        }
+
+        /**
+         * updates the image by supplying the given text image a framed button background image
+         * 
+         * @param image the text image the button is to use for its caption
+         */
+        public void updateImage(TextImage image)
+        {
+            // create the image
+            GreenfootImage base = new GreenfootImage(150, 30); // create the base image for the button
+            base.fill(); // fill with black (default drawing color) to be used for the frame
+            base.setColor(new java.awt.Color(192, 192, 255)); // set drawing color to a light blue
+            base.fillRect(3, 3, 144, 24); // fill background of button leaving the outer frame
+            base.drawImage(image, 75-image.getWidth()/2, 15-image.getHeight()/2); // draw text on image
+            setImage(base);
+        }
+    }
+    /** ***************************     End of Button class     *********************************** */
+}
