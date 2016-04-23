@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.params=q
+comment0.target=Question(java.lang.String)
+comment1.params=q\ a0\ a1\ a2\ a3\ correctA
+comment1.target=Question(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ int)
+comment2.params=
+comment2.target=void\ act()
+comment2.text=\r\n\ Act\ -\ do\ whatever\ the\ Text\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment3.params=
+comment3.target=void\ addAnswers()
+comment4.params=s
+comment4.target=void\ stringToImage(java.lang.String)
+numComments=5

@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Blackboard()
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Blackboard.\r\n\ \r\n
+comment1.params=
+comment1.target=void\ prepare()
+comment1.text=\r\n\ Prepare\ the\ world\ for\ the\ start\ of\ the\ program.\ That\ is\:\ create\ the\ initial\r\n\ objects\ and\ add\ them\ to\ the\ world.\r\n
+comment2.params=filename
+comment2.target=java.util.ArrayList\ loadFile(java.lang.String)
+comment2.text=\r\n\ Load\ a\ csv\ (comma\ separated\ variable)\ file\ into\ an\ array\ list.\ Each\ line\ will\ \r\n\ be\ treated\ as\ a\ question\ as\ follow\:\r\n\ col1\=question,\ col1\=ans0,\ col2\=ans1,\ col3\=ans2,\ col4\=ans3,\ col5\=correctAns's\ index\r\n
+comment3.params=
+comment3.target=void\ loadQ()
+comment3.text=\r\n\ Selects\ one\ line\ from\ the\ arraylist\ based\ on\ current\ lineno.\ Parses\ it\ and\r\n\ creates\ a\ question\ object,\ and\ hence\ the\ list\ of\ related\ answer\ objects\r\n
+comment4.params=
+comment4.target=int\ getMaxLines()
+numComments=5
